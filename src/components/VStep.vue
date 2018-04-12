@@ -73,7 +73,7 @@ export default {
     // console.log('[Vue Tour] The target element ' + this.step.target + ' of .v-step[id="' + this.hash + '"] is:', targetElement)
 
     if (targetElement) {
-      targetElement.scrollIntoView({behavior: 'smooth'})
+      targetElement.scrollIntoView()
 
       /* eslint-disable no-new */
       new Popper(
