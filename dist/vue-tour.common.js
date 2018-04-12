@@ -712,15 +712,25 @@ var hash_sum_default = /*#__PURE__*/__webpack_require__.n(hash_sum);
     // console.log('[Vue Tour] The target element ' + this.step.target + ' of .v-step[id="' + this.hash + '"] is:', targetElement)
 
     if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth'
-      });
+      this.scrollToMiddle(this.step.target)
       /* eslint-disable no-new */
 
       new popper["a" /* default */](targetElement, this.$refs['v-step-' + this.hash], this.params);
     } else {
       console.error('[Vue Tour] The target element ' + this.step.target + ' of .v-step[id="' + this.hash + '"] does not exist!');
       this.stop();
+    }
+  },
+  methods: {
+    scrollToMiddle(id) {
+      let elem_position = $(id).offset().top;
+      let window_height = $(window).height();
+      let y = elem_position - window_height/2;
+      window.scroll({
+        top: y,
+        left: 0,
+        behavior: 'smooth'
+      });
     }
   }
 });
