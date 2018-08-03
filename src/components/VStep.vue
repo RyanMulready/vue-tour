@@ -29,7 +29,6 @@
 <script>
 import Popper from 'popper.js'
 import sum from 'hash-sum'
-import scrollIntoView from 'scroll-into-view-if-needed'
 import { DEFAULT_STEP_OPTIONS } from '../shared/constants'
 
 export default {
@@ -74,10 +73,9 @@ export default {
     // console.log('[Vue Tour] The target element ' + this.step.target + ' of .v-step[id="' + this.hash + '"] is:', targetElement)
 
     if (targetElement) {
-      scrollIntoView(targetElement, {
+      targetElement.scrollIntoView({
         block: 'nearest',
-        inline: 'nearest',
-        scrollMode: 'if-needed'
+        inline: 'nearest'
       })
 
       /* eslint-disable no-new */
