@@ -31,7 +31,33 @@
 
 <script>
 import { DEFAULT_CALLBACKS, DEFAULT_OPTIONS, KEYS } from '../shared/constants'
+if (!Element.prototype.scrollIntoViewIfNeeded) {
+  Element.prototype.scrollIntoViewIfNeeded = function (centerIfNeeded) {
+    centerIfNeeded = arguments.length === 0 ? true : !!centerIfNeeded
 
+    var parent = this.parentNode
+    var parentComputedStyle = window.getComputedStyle(parent, null)
+    var parentBorderTopWidth = parseInt(parentComputedStyle.getPropertyValue('border-top-width'))
+    var parentBorderLeftWidth = parseInt(parentComputedStyle.getPropertyValue('border-left-width'))
+    var overTop = this.offsetTop - parent.offsetTop < parent.scrollTop
+    var overBottom = (this.offsetTop - parent.offsetTop + this.clientHeight - parentBorderTopWidth) > (parent.scrollTop + parent.clientHeight)
+    var overLeft = this.offsetLeft - parent.offsetLeft < parent.scrollLeft
+    var overRight = (this.offsetLeft - parent.offsetLeft + this.clientWidth - parentBorderLeftWidth) > (parent.scrollLeft + parent.clientWidth)
+    var alignWithTop = overTop && !overBottom
+
+    if ((overTop || overBottom) && centerIfNeeded) {
+      parent.scrollTop = this.offsetTop - parent.offsetTop - parent.clientHeight / 2 - parentBorderTopWidth + this.clientHeight / 2
+    }
+
+    if ((overLeft || overRight) && centerIfNeeded) {
+      parent.scrollLeft = this.offsetLeft - parent.offsetLeft - parent.clientWidth / 2 - parentBorderLeftWidth + this.clientWidth / 2
+    }
+
+    if ((overTop || overBottom || overLeft || overRight) && !centerIfNeeded) {
+      this.scrollIntoView(alignWithTop)
+    }
+  }
+}
 export default {
   name: 'v-tour',
   props: {
